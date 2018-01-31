@@ -15,7 +15,7 @@ public class InputParserTest {
     @Before
     public void setUp() throws Exception {
         this.cities = new Cities();
-        this.parser = new InputParser(cities);
+        this.parser = new InputParser();
     }
 
     @Test

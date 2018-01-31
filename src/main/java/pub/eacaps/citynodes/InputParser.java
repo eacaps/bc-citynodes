@@ -10,8 +10,8 @@ public class InputParser {
     private Cities cities;
     private ArrayList<String> results;
 
-    public InputParser(Cities cities) {
-        this.cities = cities;
+    public InputParser() {
+        this.cities = new Cities();
         this.results = new ArrayList<String>();
     }
 
