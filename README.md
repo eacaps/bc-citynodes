@@ -1,7 +1,7 @@
 ## bc-citynodes
 
 This project uses an undirected graph to represent teleportation paths between cities. 
-The goal is to be able to answer to following questions:
+The goal is to be able to answer the following questions:
 1. What cities can I reach from city X with a maximum of N jumps?
 2. Can someone get from city X to city Y?
 3. Starting in city X, is it possible to travel in a loop (leave the city on one route and return on another, without traveling along the same route twice)?
@@ -96,7 +96,7 @@ It accepts a file name as the input and will output the statements to answer the
     loop possible from Washington: no
     
 ## Testing
-I wrote some extensive unit tests for as many cases as I could think of. You can run the tests with: 
+I wrote some unit tests for as many cases as I could think of. You can run the tests with: 
 
     $ mvn test
     
@@ -104,5 +104,5 @@ I wrote some extensive unit tests for as many cases as I could think of. You can
 I handled a few extra cases where you ask questions about non-existant cities and if you attempt to teleport
 to the same city but it is possible I missed something.
 I didn't make the input parsing very resilient, so lines that are incomplete or don't follow the doc will break
-the program. I also went a little deep attempting to optimize the city hopping search, might not have been the best
-use of my time, but hopefully it improved the performance.
+the program. I also went a little deep attempting to optimize the city hopping search, so I might have overthought that part.
+
