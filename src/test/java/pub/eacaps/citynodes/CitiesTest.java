@@ -14,7 +14,7 @@ public class CitiesTest {
         Cities cities = new Cities();
         cities.addRoute("A", "B");
         cities.addRoute("A", "C");
-        Collection<CityNode> city_collection = cities.getCities();
+        Collection<CityNode> city_collection = cities.getAllCities();
         assertEquals(city_collection.size(), 3);
     }
 
@@ -22,7 +22,7 @@ public class CitiesTest {
     public void testAddSelfRoute() {
         Cities cities = new Cities();
         cities.addRoute("A", "A");
-        Collection<CityNode> city_collection = cities.getCities();
+        Collection<CityNode> city_collection = cities.getAllCities();
         assertEquals(city_collection.size(), 0);
     }
 

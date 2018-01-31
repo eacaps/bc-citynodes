@@ -9,12 +9,10 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 
 public class InputParserTest {
-    private Cities cities;
     private InputParser parser;
 
     @Before
     public void setUp() throws Exception {
-        this.cities = new Cities();
         this.parser = new InputParser();
     }
 
@@ -22,24 +20,25 @@ public class InputParserTest {
     public void testProcessCitiesLine() {
         this.parser.parseLine("Somewhere - Nowhere");
         this.parser.parseLine("Somewhere else - Nowhere");
-        Collection<CityNode> cities = this.cities.getCities();
+        Collection<CityNode> cities = this.parser.getCities().getAllCities();
         assertEquals(3, cities.size());
     }
 
     @Test
     public void testProcessCityHopLine() {
-        cities.addRoute("Somewhere", "Here");
-        cities.addRoute("Somewhere", "Somewhere else");
+        this.parser.getCities().addRoute("Somewhere", "Here");
+        this.parser.getCities().addRoute("Somewhere", "Somewhere else");
         parser.parseLine("cities from Somewhere in 1 jumps");
         ArrayList<String> results = parser.getResults();
         assertEquals(1, results.size());
-        assertEquals("cities from Somewhere in 1 jumps: Here, Somewhere else", results.get(0));
+        assertEquals(true, results.get(0).contains("Somewhere else"));
+        assertEquals(true, results.get(0).contains("Here"));
     }
 
     @Test
     public void testProcessTeleportLine() {
-        cities.addRoute("Somewhere", "Here");
-        cities.addRoute("Here", "Somewhere else");
+        this.parser.getCities().addRoute("Somewhere", "Here");
+        this.parser.getCities().addRoute("Here", "Somewhere else");
         parser.parseLine("can I teleport from Somewhere to Somewhere else");
         ArrayList<String> results = parser.getResults();
         assertEquals(1, results.size());
@@ -48,9 +47,9 @@ public class InputParserTest {
 
     @Test
     public void testFalseProcessTeleportLine() {
-        cities.addRoute("Somewhere", "Here");
-        cities.addRoute("Here", "Somewhere else");
-        cities.addRoute("Nowhere", "Everywhere");
+        this.parser.getCities().addRoute("Somewhere", "Here");
+        this.parser.getCities().addRoute("Here", "Somewhere else");
+        this.parser.getCities().addRoute("Nowhere", "Everywhere");
         parser.parseLine("can I teleport from Somewhere to Nowhere");
         ArrayList<String> results = parser.getResults();
         assertEquals(1, results.size());
@@ -59,9 +58,9 @@ public class InputParserTest {
 
     @Test
     public void testProcessLoopLine() {
-        cities.addRoute("Somewhere", "Here");
-        cities.addRoute("Here", "Somewhere else");
-        cities.addRoute("Somewhere", "Somewhere else");
+        this.parser.getCities().addRoute("Somewhere", "Here");
+        this.parser.getCities().addRoute("Here", "Somewhere else");
+        this.parser.getCities().addRoute("Somewhere", "Somewhere else");
         parser.parseLine("loop possible from Somewhere");
         ArrayList<String> results = parser.getResults();
         assertEquals(1, results.size());
@@ -70,8 +69,8 @@ public class InputParserTest {
 
     @Test
     public void testFalseProcessLoopLine() {
-        cities.addRoute("Somewhere", "Here");
-        cities.addRoute("Here", "Somewhere else");
+        this.parser.getCities().addRoute("Somewhere", "Here");
+        this.parser.getCities().addRoute("Here", "Somewhere else");
         parser.parseLine("loop possible from Somewhere");
         ArrayList<String> results = parser.getResults();
         assertEquals(1, results.size());

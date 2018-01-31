@@ -80,4 +80,8 @@ public class InputParser {
     public ArrayList<String> getResults() {
         return this.results;
     }
+
+    protected Cities getCities() {
+        return cities;
+    }
 }
