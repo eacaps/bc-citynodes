@@ -52,6 +52,45 @@ public class CitiesTest {
     }
 
     @Test
+    public void testSelfConnected() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        assertEquals(true, cities.areConnected("A", "A"));
+    }
+
+    @Test
+    public void testNonExistantSelfConnected() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        assertEquals(true, cities.areConnected("C", "C"));
+    }
+
+    @Test
+    public void testAreNotConnected() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        cities.addRoute("A", "C");
+        cities.addRoute("C", "D");
+        cities.addRoute("B", "E");
+        cities.addRoute("F", "G");
+        assertEquals(false, cities.areConnected("A", "G"));
+    }
+
+    @Test
+    public void testNonExistantRightAreConnected() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        assertEquals(false, cities.areConnected("A", "C"));
+    }
+
+    @Test
+    public void testNonExistantLeftAreConnected() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        assertEquals(false, cities.areConnected("C", "A"));
+    }
+
+    @Test
     public void testLinearAreConnected() {
         Cities cities = new Cities();
         cities.addRoute("A", "B");
@@ -59,7 +98,7 @@ public class CitiesTest {
         cities.addRoute("B", "D");
         cities.addRoute("C", "F");
         cities.addRoute("C", "E");
-        assertEquals(true, cities.areConnected("A", "C"));
+        assertEquals(true, cities.areConnected("A", "E"));
     }
 
     @Test

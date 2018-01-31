@@ -21,8 +21,6 @@ public class CityNode {
 
     @Override
     public String toString() {
-        return "CityNode{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

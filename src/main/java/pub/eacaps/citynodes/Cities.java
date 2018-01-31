@@ -1,5 +1,6 @@
 package pub.eacaps.citynodes;
 
+
 import java.util.*;
 
 public class Cities {
@@ -7,6 +8,10 @@ public class Cities {
 
     public Cities() {
         this.cities = new HashMap<String, CityNode>();
+    }
+
+    public Collection<CityNode> getCities() {
+        return cities.values();
     }
 
     public void addRoute(String left, String right) {
@@ -27,10 +32,10 @@ public class Cities {
 
     public boolean canLoop(String origin) {
         CityNode origin_node = this.cities.get(origin);
-        return checkForLoop(origin_node, null, origin_node, new ArrayList<CityNode>());
+        return checkForLoop(origin_node, null, origin_node, new HashSet<CityNode>());
     }
 
-    public boolean checkForLoop(CityNode origin, CityNode prev, CityNode cur, ArrayList<CityNode> visited) {
+    public boolean checkForLoop(CityNode origin, CityNode prev, CityNode cur, HashSet<CityNode> visited) {
         if (cur == origin && prev != null) {
             return true;
         }
@@ -46,18 +51,24 @@ public class Cities {
     }
 
     public boolean areConnected(String origin, String destination) {
+        if (origin == destination)
+            return true;
         CityNode origin_node = this.cities.get(origin);
         CityNode destination_node = this.cities.get(destination);
-        return searchForCity(origin_node, destination_node);
+        return searchForCity(origin_node, destination_node, new HashSet<CityNode>());
     }
 
-    private boolean searchForCity(CityNode origin, CityNode destination) {
+    private boolean searchForCity(CityNode origin, CityNode destination, HashSet<CityNode> visited) {
+        if (origin == null)
+            return false;
         ArrayList<CityNode> adjacent_cities = origin.getAdjacentCities();
         if (adjacent_cities.contains(destination)) {
             return true;
         } else {
+            visited.add(origin);
             for (CityNode next : adjacent_cities) {
-                return searchForCity(next, destination);
+                if (!visited.contains(next))
+                    return searchForCity(next, destination, visited);
             }
         }
         return false;
