@@ -2,11 +2,29 @@ package pub.eacaps.citynodes;
 
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.Set;
 
 import static org.junit.Assert.*;
 
 public class CitiesTest {
+
+    @Test
+    public void testAddRoute() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        cities.addRoute("A", "C");
+        Collection<CityNode> city_collection = cities.getCities();
+        assertEquals(city_collection.size(), 3);
+    }
+
+    @Test
+    public void testAddSelfRoute() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "A");
+        Collection<CityNode> city_collection = cities.getCities();
+        assertEquals(city_collection.size(), 0);
+    }
 
     @Test
     public void testSimpleCityHoping() {
@@ -15,6 +33,15 @@ public class CitiesTest {
         cities.addRoute("A", "C");
         Set<CityNode> cities_near_a = cities.getCitiesWithinHops("A", 1);
         assertEquals(2, cities_near_a.size());
+    }
+
+    @Test
+    public void testNoCityHoping() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        cities.addRoute("A", "C");
+        Set<CityNode> cities_near_d = cities.getCitiesWithinHops("D", 1);
+        assertEquals(0, cities_near_d.size());
     }
 
     @Test
@@ -117,6 +144,15 @@ public class CitiesTest {
         cities.addRoute("B", "C");
         cities.addRoute("C", "D");
         assertEquals(false, cities.canLoop("A"));
+    }
+
+    @Test
+    public void testNonExistantCanLoop() {
+        Cities cities = new Cities();
+        cities.addRoute("A", "B");
+        cities.addRoute("B", "C");
+        cities.addRoute("C", "D");
+        assertEquals(false, cities.canLoop("E"));
     }
 
     @Test

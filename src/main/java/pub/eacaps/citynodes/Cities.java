@@ -15,10 +15,12 @@ public class Cities {
     }
 
     public void addRoute(String left, String right) {
-        CityNode left_city = this.getNode(left);
-        CityNode right_city = this.getNode(right);
-        left_city.addAdjacentCity(right_city);
-        right_city.addAdjacentCity(left_city);
+        if (left != right) {
+            CityNode left_city = this.getNode(left);
+            CityNode right_city = this.getNode(right);
+            left_city.addAdjacentCity(right_city);
+            right_city.addAdjacentCity(left_city);
+        }
     }
 
     private CityNode getNode(String city) {
@@ -40,7 +42,7 @@ public class Cities {
             return true;
         }
         boolean result = false;
-        if (!visited.contains(cur)) {
+        if (cur != null && !visited.contains(cur)) {
             visited.add(cur);
             for (CityNode city_node : cur.getAdjacentCities()) {
                 if (city_node != prev)
@@ -77,7 +79,9 @@ public class Cities {
     public Set<CityNode> getCitiesWithinHops(String city, int hops) {
         HashMap<CityNode, Integer> result = new HashMap<CityNode, Integer>();
         CityNode city_node = this.cities.get(city);
-        this.recursiveCityHopping(city_node, hops, result);
+        if (city_node != null) {
+            this.recursiveCityHopping(city_node, hops, result);
+        }
         result.remove(city_node);
         return result.keySet();
     }
